@@ -1,5 +1,13 @@
 # stocknet-code
 
+```sh
+2019-04-16 01:18:09,712 INFO Model: all_days-5.msgs-30-words-40_word_embed-glove.vmd_in-hedge_alpha-0.5.anneal-0.005.rec-zh_batch-32.opt-adam.lr-0.001-drop-0.3-cell-gru
+2019-04-16 01:26:11,191 INFO    Eval, eval loss: 1.03172838688, acc: 0.574405
+
+2019-04-16 01:18:09,712 INFO Model: all_days-5.msgs-30-words-40_word_embed-glove.vmd_in-hedge_alpha-0.5.anneal-0.005.rec-zh_batch-32.opt-adam.lr-0.001-drop-0.3-cell-gru, session restored!
+2019-04-16 01:26:11,191 INFO    Eval, eval loss: 1.03172838688, acc: 0.574405
+```
+
 This repository releases the code for stock movement prediction from tweets and historical stock prices. Please cite the following paper [[bib](https://aclanthology.info/papers/P18-1183/p18-1183.bib)] if you use this code,  
 
 Yumo Xu and Shay B. Cohen. 2018. [Stock Movement Prediction from Tweets and Historical Prices](http://aclweb.org/anthology/P18-1183). In Proceedings of the 56st Annual Meeting of the Association for Computational Linguistics. Melbourne, Australia, volume 1.

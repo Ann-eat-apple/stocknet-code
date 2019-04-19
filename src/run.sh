@@ -1,3 +1,3 @@
 #!/bin/sh
 export CUDA_VISIBLE_DEVICES=0
-python Main.py
+python2 Main.py
