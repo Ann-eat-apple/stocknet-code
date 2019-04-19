@@ -3,7 +3,7 @@ data/price
 data/tweet
 data/my_data
 saved
-log
+*.log
 graphs
 __pycache__
 *.pyc
