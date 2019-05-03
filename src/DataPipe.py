@@ -125,21 +125,36 @@ class DataPipe:
     def _get_prices_and_ts(self, ss, main_target_date):
 
         def _get_mv_class(data, use_one_hot=False):
-            mv = float(data[1])
+            mv = int(data[-1])
             if self.y_size == 2:
-                if mv <= 1e-7:
+                if mv == 0:
                     return [1.0, 0.0] if use_one_hot else 0
                 else:
                     return [0.0, 1.0] if use_one_hot else 1
 
             if self.y_size == 3:
-                threshold_1, threshold_2 = -0.004, 0.005
-                if mv < threshold_1:
+                if mv == 0:
                     return [1.0, 0.0, 0.0] if use_one_hot else 0
-                elif mv < threshold_2:
+                elif mv == 1:
                     return [0.0, 1.0, 0.0] if use_one_hot else 1
                 else:
                     return [0.0, 0.0, 1.0] if use_one_hot else 2
+
+            # mv = float(data[1])
+            # if self.y_size == 2:
+            #     if mv <= 1e-7:
+            #         return [1.0, 0.0] if use_one_hot else 0
+            #     else:
+            #         return [0.0, 1.0] if use_one_hot else 1
+
+            # if self.y_size == 3:
+            #     threshold_1, threshold_2 = -0.004, 0.005
+            #     if mv < threshold_1:
+            #         return [1.0, 0.0, 0.0] if use_one_hot else 0
+            #     elif mv < threshold_2:
+            #         return [0.0, 1.0, 0.0] if use_one_hot else 1
+            #     else:
+            #         return [0.0, 0.0, 1.0] if use_one_hot else 2
 
         def _get_y(data):
             return _get_mv_class(data, use_one_hot=True)
@@ -152,21 +167,23 @@ class DataPipe:
 
         ts, ys, prices, mv_percents, main_mv_percent = list(), list(), list(), list(), 0.0
         d_t_min = main_target_date - timedelta(days=self.max_n_days-1)
+        #logger.info('{}\t{}'.format(d_t_min, main_target_date))
 
         stock_movement_path = os.path.join(str(self.movement_path), '{}.txt'.format(ss))
         with io.open(stock_movement_path, 'r', encoding='utf8') as movement_f:
             for line in movement_f:  # descend
                 data = line.split('\t')
                 t = datetime.strptime(data[0], '%Y-%m-%d').date()
-                # logger.info(t)
+                #logger.info(t)
                 if t == main_target_date:
-                    # logger.info(t)
+                    #logger.info(t)
                     ts.append(t)
                     ys.append(_get_y(data))
                     main_mv_percent = data[1]
-                    if -0.005 <= float(main_mv_percent) < 0.0055:  # discard sample with low movement percent
-                        return None
+                    # if -0.005 <= float(main_mv_percent) < 0.0055:  # discard sample with low movement percent
+                    #     return None
                 if d_t_min <= t < main_target_date:
+                    #logger.info(t)
                     ts.append(t)
                     ys.append(_get_y(data))
                     prices.append(_get_prices(data))  # high, low, close
@@ -177,6 +194,7 @@ class DataPipe:
                     break
 
         T = len(ts)
+        #logger.info('[{}]\t{}\t{}\t{}'.format(T, len(ys), len(prices), len(mv_percents)))
         if len(ys) != T or len(prices) != T or len(mv_percents) != T:  # ensure data legibility
             return None
 
@@ -329,24 +347,27 @@ class DataPipe:
                 main_target_date = datetime.strptime(data[0], '%Y-%m-%d').date()
                 main_target_date_str = main_target_date.isoformat()
 
-                if start_date <= main_target_date_str < end_date:
+                if start_date <= main_target_date_str <= end_date:
                     main_target_dates.append(main_target_date)
 
         if self.shuffle:  # shuffle data
             random.shuffle(main_target_dates)
-
+            
         for main_target_date in main_target_dates:
-            # logger.info('start _get_unaligned_corpora')
+            #logger.info('start _get_unaligned_corpora')
             unaligned_corpora = self._get_unaligned_corpora(s, main_target_date, vocab_id_dict)
-            # logger.info('start _get_prices_and_ts')
+            #logger.info('start _get_prices_and_ts')
             prices_and_ts = self._get_prices_and_ts(s, main_target_date)
             if not prices_and_ts:
+                #logger.info(main_target_date)
                 continue
 
-            # logger.info('start _trading_day_alignment')
+            #logger.info('start _trading_day_alignment')
             aligned_info_dict = self._trading_day_alignment(prices_and_ts['ts'], prices_and_ts['T'], unaligned_corpora)
             if not aligned_info_dict:
+                #logger.info('not aligned_info_dict')
                 continue
+            #logger.info('aligned!')
 
             sample_dict = {
                 # meta info

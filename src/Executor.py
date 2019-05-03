@@ -105,6 +105,10 @@ class Executor:
             batch_size = float(gen_batch_dict['batch_size'])
             gen_size += batch_size
 
+        # if phase == 'test':
+        #     import numpy as np
+        #     print(np.vstack(y_list).shape)
+        #     print(np.vstack(y_list_).shape)
         results = metrics.eval_res(gen_n_acc, gen_size, gen_loss_list, y_list, y_list_)
         return results
 
@@ -171,7 +175,7 @@ class Executor:
                     train_batch_loss_list.append(train_batch_loss)  # list of floats
                     train_batch_n_acc = sess.run(metrics.n_accurate(y=train_batch_y, y_=train_batch_y_))  # float
                     epoch_n_acc += float(train_batch_n_acc)
-
+                    
                     # save model and generation
                     if n_iter >= self.silence_step and n_iter % self.skip_step == 0:
                         stat_logger.print_batch_stat(n_iter, train_batch_loss, train_batch_n_acc,

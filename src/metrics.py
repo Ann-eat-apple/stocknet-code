@@ -47,18 +47,98 @@ def eval_mcc(tp, fp, tn, fn):
     core_de = (tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)
     return (tp * tn - fp * fn) / math.sqrt(core_de) if core_de else None
 
+def recall_pos(output, target):
+    pred = np.argmax(output, axis=1)
+    target = np.argmax(target, axis=1)
+    assert pred.shape[0] == len(target)
+    
+    correct = np.sum((pred == target) * (target == 1))
+    base = np.sum(target == 1)
+    
+    if base == 0:
+        return 0
+    return 1. * correct / base
+
+def recall_neg(output, target):
+    pred = np.argmax(output, axis=1)
+    target = np.argmax(target, axis=1)
+    assert pred.shape[0] == len(target)
+    
+    correct = np.sum((pred == target) * (target == 2))
+    base = np.sum(target == 2)
+    
+    if base == 0:
+        return 0
+    return 1. * correct / base
+
+def recall_neu(output, target):
+    pred = np.argmax(output, axis=1)
+    target = np.argmax(target, axis=1)
+    assert pred.shape[0] == len(target)
+    
+    correct = np.sum((pred == target) * (target == 0))
+    base = np.sum(target == 0)
+    
+    if base == 0:
+        return 0
+    return 1. * correct / base
+
+def precision_pos(output, target):
+    pred = np.argmax(output, axis=1)
+    target = np.argmax(target, axis=1)
+    assert pred.shape[0] == len(target)
+    
+    correct =  np.sum((pred == target) * (pred == 1))
+    base = np.sum(pred == 1)
+    
+    if base == 0:
+        return 0
+    return 1. * correct / base
+
+def precision_neg(output, target):
+    pred = np.argmax(output, axis=1)
+    target = np.argmax(target, axis=1)
+    assert pred.shape[0] == len(target)
+    
+    correct =  np.sum((pred == target) * (pred == 2))
+    base = np.sum(pred == 2)
+    
+    if base == 0:
+        return 0
+    return 1. * correct / base
+
+def precision_neu(output, target):
+    pred = np.argmax(output, axis=1)
+    target = np.argmax(target, axis=1)
+    assert pred.shape[0] == len(target)
+    
+    correct =  np.sum((pred == target) * (pred == 0))
+    base = np.sum(pred == 0)
+    
+    if base == 0:
+        return 0
+    return 1. * correct / base
 
 def eval_res(gen_n_acc, gen_size, gen_loss_list, y_list, y_list_, use_mcc=None):
     gen_acc = eval_acc(n_acc=gen_n_acc, total=gen_size)
     gen_loss = np.average(gen_loss_list)
+
+    gen_y, gen_y_ = np.vstack(y_list), np.vstack(y_list_)
+
     results = {'loss': gen_loss,
                'acc': gen_acc,
+               'precision_neu': precision_neu(gen_y, gen_y_),
+               'precision_pos': precision_pos(gen_y, gen_y_),
+               'precision_neg': precision_neg(gen_y, gen_y_),
+               'recall_neu': recall_neu(gen_y, gen_y_),
+               'recall_pos': recall_pos(gen_y, gen_y_),
+               'recall_neg': precision_neg(gen_y, gen_y_),
                }
 
-    if use_mcc:
-        gen_y, gen_y_ = np.vstack(y_list), np.vstack(y_list_)
-        tp, fp, tn, fn = create_confusion_matrix(y=gen_y, y_=gen_y_)
-        results['mcc'] = eval_mcc(tp, fp, tn, fn)
+    # if use_mcc:
+    #     gen_y, gen_y_ = np.vstack(y_list), np.vstack(y_list_)
+    #     tp, fp, tn, fn = create_confusion_matrix(y=gen_y, y_=gen_y_)
+    #     results['mcc'] = eval_mcc(tp, fp, tn, fn)
 
     return results
 

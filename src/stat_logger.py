@@ -17,13 +17,6 @@ def print_epoch_stat(epoch_loss, epoch_acc):
 
 
 def print_eval_res(result_dict, use_mcc=None):
-    eval_loss, eval_acc = result_dict['loss'], result_dict['acc']
     iter_str = '\tEval'
-    loss_str = 'loss: {:.6f}'.format(eval_loss) if type(eval_loss) is float else 'eval loss: {}'.format(eval_loss)
-    acc_str = 'acc: {:.6f}'.format(eval_acc)
-    info_list = [iter_str, loss_str, acc_str]
-    if use_mcc:
-        mcc = result_dict['mcc']
-        mcc_str = 'mcc: {:.6f}'.format(mcc) if mcc else 'mcc: {}'.format(mcc)
-        info_list.append(mcc_str)
+    info_list = [iter_str] + ['{}: {:.6f}'.format(k, float(v)) for k, v in result_dict.iteritems()]
     logger.info(', '.join(info_list))

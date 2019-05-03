@@ -1,9 +1,6 @@
 # stocknet-code
 
 ```sh
-2019-04-16 01:18:09,712 INFO Model: all_days-5.msgs-30-words-40_word_embed-glove.vmd_in-hedge_alpha-0.5.anneal-0.005.rec-zh_batch-32.opt-adam.lr-0.001-drop-0.3-cell-gru
-2019-04-16 01:26:11,191 INFO    Eval, eval loss: 1.03172838688, acc: 0.574405
-
 2019-04-16 01:18:09,712 INFO Model: all_days-5.msgs-30-words-40_word_embed-glove.vmd_in-hedge_alpha-0.5.anneal-0.005.rec-zh_batch-32.opt-adam.lr-0.001-drop-0.3-cell-gru, session restored!
 2019-04-16 01:26:11,191 INFO    Eval, eval loss: 1.03172838688, acc: 0.574405
 ```

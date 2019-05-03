@@ -2,8 +2,10 @@ res/glove.twitter.27B.50d.txt
 data/price
 data/tweet
 data/my_data
+checkpoints/all*
 saved
 *.log
 graphs
 __pycache__
 *.pyc
+graphs

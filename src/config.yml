@@ -5,20 +5,20 @@ model:
   alpha: 0.5 # 0.1, 0.3, 0.5, 0.7, 0.9, 1.0
   dropout_vmd_in: 0.3
   dropout_mel_in: 0.3
-  n_epochs: 15
+  n_epochs: 45 #15
   batch_size: 32
 
-  kl_lambda_anneal_rate: 0.005  # 0.005, 0.002, 0.001, 0.0005
+  kl_lambda_anneal_rate: 0.001  # 0.005, 0.002, 0.001, 0.0005
   kl_lambda_start_step: 0
   daily_att: 'y'  # y, g
 
   vmd_rec: 'zh'  # zh or h
 
   opt: 'adam'  # sgd, adam
-  lr: 0.001
+  lr: 0.001 #0.001
   clip: 15.0
 
-  y_size: 2
+  y_size: 3
   use_constant_kl_lambda: 0
   constant_kl_lambda: 0.1
 
@@ -51,29 +51,21 @@ model:
   dropout_vmd: 0.0
 
 dates:
-  train_start_date: '2014-01-01'
-  train_end_date: '2015-08-01'
-  dev_start_date: '2015-08-01'
-  dev_end_date: '2015-10-01'
-  test_start_date: '2015-10-01'
-  test_end_date: '2016-01-01'
+  train_start_date: '2018-07-11'
+  train_end_date: '2018-11-30'
+  dev_start_date: '2018-10-01'
+  dev_end_date: '2018-11-30'
+  test_start_date: '2018-12-01'
+  test_end_date: '2019-01-31'
 
 stocks:
-  materials: ['XOM', 'RDS-B', 'PTR', 'CVX', 'TOT', 'BP', 'BHP', 'SNP', 'SLB', 'BBL']
-  consumer_goods: ['AAPL', 'PG', 'BUD', 'KO', 'PM', 'TM', 'PEP', 'UN', 'UL', 'MO']
-  healthcare: ['JNJ', 'PFE', 'NVS', 'UNH', 'MRK', 'AMGN', 'MDT', 'ABBV', 'SNY', 'CELG']
-  services: ['AMZN', 'BABA', 'WMT', 'CMCSA', 'HD', 'DIS', 'MCD', 'CHTR', 'UPS', 'PCLN']
-  utilities: ['NEE', 'DUK', 'D', 'SO', 'NGG', 'AEP', 'PCG', 'EXC', 'SRE', 'PPL']
-  cong: ['IEP', 'HRG', 'CODI', 'REX', 'SPLP', 'PICO', 'AGFS', 'GMRE']
-  finance: ['BCH', 'BSAC', 'BRK-A', 'JPM', 'WFC', 'BAC', 'V', 'C', 'HSBC', 'MA']
-  industrial_goods: ['GE', 'MMM', 'BA', 'HON', 'UTX', 'LMT', 'CAT', 'GD', 'DHR', 'ABB']
-  tech: ['GOOG', 'MSFT', 'FB', 'T', 'CHL', 'ORCL', 'TSM', 'VZ', 'INTC', 'CSCO']
+  firms: ['MSFT'] #['AAPL', 'AMZN', 'BIDU', 'GOOG', 'MSFT', 'NFLX']
 
 paths:
   data: 'data/'
   tweet_retrieved: 'tweet/raw'
-  tweet_preprocessed: 'tweet/preprocessed'
-  price: 'price/preprocessed'
+  tweet_preprocessed: 'my_data/tweet' #'tweet/preprocessed'
+  price: 'my_data/price/Trend' #'price/preprocessed'
   res: 'res/'
   glove: 'glove.twitter.27B.50d.txt'
   vocab_tweet: 'vocab.txt'
