@@ -12,9 +12,9 @@ import sys
 class PathParser:
 
     def __init__(self, config_path):
-        self.root = '../'
-        self.log = os.path.join(self.root, config_path['log'])
+        self.root = os.path.join(os.path.dirname(__file__), '..')
 
+        self.log = os.path.join(self.root, config_path['log'])
         self.data = os.path.join(self.root, config_path['data'])
         self.res = os.path.join(self.root, config_path['res'])
         self.graphs = os.path.join(self.root, config_path['graphs'])

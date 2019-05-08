@@ -1,21 +1,21 @@
 ---
 model:
   mode: 'all'
-  variant_type: 'hedge'
-  alpha: 0.5
+  variant_type: 'hedge' # hedge, tech, fund, discriminative
+  alpha: 0.5 # 0.1, 0.3, 0.5, 0.7, 0.9, 1.0
   dropout_vmd_in: 0.3
   dropout_mel_in: 0.3
-  n_epochs: 15
+  n_epochs: 45 #15
   batch_size: 32
 
-  kl_lambda_anneal_rate: 0.001
+  kl_lambda_anneal_rate: 0.001  # 0.005, 0.002, 0.001, 0.0005
   kl_lambda_start_step: 0
-  daily_att: 'y'
+  daily_att: 'y'  # y, g
 
-  vmd_rec: 'zh'
+  vmd_rec: 'zh'  # zh or h
 
-  opt: 'adam'
-  lr: 0.001
+  opt: 'adam'  # sgd, adam
+  lr: 0.001 #0.001
   clip: 15.0
 
   y_size: 3
@@ -24,8 +24,8 @@ model:
 
   word_embed_type: 'glove'
   weight_init: 'xavier-uniform'
-  mel_cell_type: 'gru'
-  vmd_cell_type: 'gru'
+  mel_cell_type: 'gru'  # basic, gru, ln-lstm
+  vmd_cell_type: 'gru'  # basic, gru, ln-lstm
 
   word_embed_size: 50
   stock_embed_size: 150
@@ -59,13 +59,13 @@ dates:
   test_end_date: '2019-01-31'
 
 stocks:
-  firms: ['MSFT']
+  firms: ['MSFT'] #['AAPL', 'AMZN', 'BIDU', 'GOOG', 'MSFT', 'NFLX']
 
 paths:
   data: 'data/'
-  tweet_retrieved: 'tweet'
-  tweet_preprocessed: 'tweet'
-  price: 'price/Trend'
+  tweet_retrieved: 'tweet/raw'
+  tweet_preprocessed: 'my_data/tweet' #'tweet/preprocessed'
+  price: 'my_data/price/Trend' #'price/preprocessed'
   res: 'res/'
   glove: 'glove.twitter.27B.50d.txt'
   vocab_tweet: 'vocab.txt'
