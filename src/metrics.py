@@ -119,21 +119,29 @@ def precision_neu(output, target):
         return 0
     return 1. * correct / base
 
+from sklearn.metrics import precision_score, recall_score, confusion_matrix
+
 def eval_res(gen_n_acc, gen_size, gen_loss_list, y_list, y_list_, use_mcc=None):
     gen_acc = eval_acc(n_acc=gen_n_acc, total=gen_size)
     gen_loss = np.average(gen_loss_list)
 
-    gen_y, gen_y_ = np.vstack(y_list), np.vstack(y_list_)
+    Y_test, Y_pred = np.vstack(y_list), np.vstack(y_list_)
 
     results = {'loss': gen_loss,
-               'acc': gen_acc,
-               'precision_neu': precision_neu(gen_y, gen_y_),
-               'precision_pos': precision_pos(gen_y, gen_y_),
-               'precision_neg': precision_neg(gen_y, gen_y_),
-               'recall_neu': recall_neu(gen_y, gen_y_),
-               'recall_pos': recall_pos(gen_y, gen_y_),
-               'recall_neg': precision_neg(gen_y, gen_y_),
+               'accuracy': gen_acc,
+               'precision': precision_score(Y_test, Y_pred, average=None).ravel().tolist(),
+               'recall': recall_score(Y_test, Y_pred, average=None).ravel().tolist(),
+               'confusion_matrix': confusion_matrix(Y_test, Y_pred).ravel().tolist()
                }
+    # results = {'loss': gen_loss,
+    #            'accuracy': gen_acc,
+    #            'precision_neu': precision_neu(gen_y, gen_y_),
+    #            'precision_pos': precision_pos(gen_y, gen_y_),
+    #            'precision_neg': precision_neg(gen_y, gen_y_),
+    #            'recall_neu': recall_neu(gen_y, gen_y_),
+    #            'recall_pos': recall_pos(gen_y, gen_y_),
+    #            'recall_neg': precision_neg(gen_y, gen_y_),
+    #            }
 
     # if use_mcc:
     #     gen_y, gen_y_ = np.vstack(y_list), np.vstack(y_list_)

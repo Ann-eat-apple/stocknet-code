@@ -12,11 +12,12 @@ def print_batch_stat(n_iter, train_batch_loss, train_batch_n_acc, train_batch_si
 
 
 def print_epoch_stat(epoch_loss, epoch_acc):
-    epoch_stat_pattern = 'Epoch: loss: {0:.6f}, acc: {1:.6f}'
+    epoch_stat_pattern = 'Epoch: loss: {0:.6f}, accuracy: {1:.6f}'
     logger.info(epoch_stat_pattern.format(epoch_loss, epoch_acc))
 
 
 def print_eval_res(result_dict, use_mcc=None):
     iter_str = '\tEval'
-    info_list = [iter_str] + ['{}: {:.6f}'.format(k, float(v)) for k, v in result_dict.iteritems()]
+    #info_list = [iter_str] + ['{}: {:.6f}'.format(k, float(v)) for k, v in result_dict.iteritems()]
+    info_list = [iter_str] + ['{}: {}'.format(k, v) for k, v in result_dict.iteritems()]
     logger.info(', '.join(info_list))
